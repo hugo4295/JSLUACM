@@ -3,11 +3,9 @@
 <p align="center">
   <img src="https://github.com/hugo4295/JSLUACM/blob/main/assets/soft%20libre.png">
 </p>
-![Jornadas de SoftLibre](https://github.com/hugo4295/JSLUACM/blob/main/assets/soft%20libre.png)<br>
 <br>
-
 
 Desarrollado por: M. en S. C. VIctor Hugo De la O Martínez
 <p align="left">
-  <img width="70" height="70" src="https://github.com/hugo4295/JSLUACM/blob/main/assets/youtube_social_squircle_red.png">
+  <a href="youtube.com/hugo4295"><img width="70" height="70" src="https://github.com/hugo4295/JSLUACM/blob/main/assets/youtube_social_squircle_red.png"></a>
 </p>
