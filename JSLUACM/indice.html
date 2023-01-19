@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <title>Consumir datos</title>
+</head>
+<body>
+    <div id="tabla">
+        <table class="table">
+            <caption>Informacion</caption>
+            <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Edad</th>
+                    <th scope="col">Corre</th>
+                    <th scope="col rowspan="2">Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="datos"></tbody>
+            <tfoot><td>Programacion WEB</td></tfoot>
+        </table>
+    </div>
+    <div id="acformulario" class="content">
+    <form><label for="aid">ID</label>
+    <input type="number" name="aid" id="aid" disabled> <br>
+        <label for="anombre">Nombre</label>
+        <input type="text" name="anombre" id="anombre"><br>
+        <label for="aedad">Edad</label>
+        <input type="number" name="aedad" id="aedad"><br>
+        <label for="acorreo">Correo</label>
+        <input type="text" name="acorreo" id="acorreo"><br>
+        <input type="submit" value="Enviar">        
+        <input type="reset" value="Borrar">
+    </form>
+    </div>
+    <div id="regformulario" class="content">
+        <form><label for="rid">ID</label>
+        <input type="number" name="rid" id="rid" disabled> <br>
+            <label for="rnombre">Nombre</label>
+            <input type="text" name="rnombre" id="rnombre"><br>
+            <label for="redad">Edad</label>
+            <input type="number" name="redad" id="redad"><br>
+            <label for="rcorreo">Correo</label>
+            <input type="text" name="rcorreo" id="rcorreo"><br>
+            <input type="submit" value="Enviar">        
+            <input type="reset" value="Borrar">
+        </form>
+    </div>
+    <div id="delformulario" class="content">
+        <form><label for="bid">ID</label>
+        <input type="number" name="bid" id="bid" disabled> <br>
+            <label for="bnombre">Nombre</label>
+            <input type="text" name="bnombre" id="bnombre" disabled><br>
+            <label for="bedad">Edad</label>
+            <input type="number" name="bedad" id="bedad" disabled><br>
+            <label for="bcorreo">Correo</label>
+            <input type="text" name="bcorreo" id="bcorreo" disabled><br>
+            <input type="submit" value="Enviar">        
+            <input type="reset" value="Borrar">
+        </form>
+    </div>
+    <script>
+        document.getElementById("tabla").hidden=false
+        document.getElementById("acformulario").hidden=true
+        document.getElementById("regformulario").hidden=true
+        document.getElementById("delformulario").hidden=true
+        var formulario = document.getElementById("acformulario")
+        var regformulario = document.getElementById("regformulario")
+        var delformulario = document.getElementById("delformulario")
+        window.addEventListener("load",function(){
+            cargardatos()
+        })
+        window.addEventListener("click", function(){
+            let id=event.srcElement.id;
+
+            let accion = id.substr(0,1)
+            let valorid = id.substr(1,(id.length-1))
+            const datos = new FormData();
+            datos.append("id", parseInt(valorid,10))
+            
+            switch(accion){
+                case 'e': actualizacion(datos); break;
+                case 'd': eliminacion(datos); break;
+                case 'n': insercion(); break;
+            }
+        })
+
+        formulario.addEventListener('submit',function(e){ 
+            e.preventDefault()
+            const datos = new FormData()
+            datos.append("id", parseInt(document.getElementById("aid").value,10))
+            datos.append("nombre", document.getElementById("anombre").value)
+            datos.append("edad", parseInt(document.getElementById("aedad").value,10))
+            datos.append("correo", document.getElementById("acorreo").value)
+            const informacion = new URLSearchParams(datos)
+            fetch('metodos.php',{
+                method:'PUT',
+                body: informacion
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data){
+                    alert("se actualizaron correctamente")
+                } else {
+                    alert("no se pudieron actualizar los datos")
+                }
+                cargardatos()
+                document.getElementById("tabla").hidden=false
+                document.getElementById("acformulario").hidden=true
+            })
+         });
+
+        regformulario.addEventListener('submit',function(e){ 
+            e.preventDefault()
+            const datos = new FormData()            
+            datos.append("nombre", document.getElementById("rnombre").value)
+            datos.append("edad", parseInt(document.getElementById("redad").value,10))
+            datos.append("correo", document.getElementById("rcorreo").value)
+            const informacion = new URLSearchParams(datos)
+            fetch('metodos.php',{
+                method:'POST',
+                body: informacion
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data){
+                    alert("se registro correctamente")
+                } else {
+                    alert("no se registrar actualizar los datos")
+                }
+                cargardatos()
+                document.getElementById("tabla").hidden=false
+                document.getElementById("regformulario").hidden=true
+            })
+         });
+
+        delformulario.addEventListener('submit',function(e){ 
+            e.preventDefault()
+            const datos = new FormData()
+            datos.append("id", parseInt(document.getElementById("bid").value,10))
+            const informacion = new URLSearchParams(datos)
+            fetch('metodos.php',{
+                method:'DELETE',
+                body: informacion
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data){
+                    alert("se elimino correctamente")
+                } else {
+                    alert("no se elimino  los datos")
+                }
+                cargardatos()
+                document.getElementById("tabla").hidden=false
+                document.getElementById("delformulario").hidden=true
+            })
+         });
+
+
+        function actualizacion(datos){
+
+            fetch('metodos.php?'+ new URLSearchParams({"id":datos.get("id")}),{
+                method:'GET'
+            })
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById("tabla").hidden=true
+                document.getElementById("acformulario").hidden=false
+                document.getElementById("aid").value=data[0].id
+                document.getElementById("anombre").value=data[0].nombre
+                document.getElementById("aedad").value=data[0].edad
+                document.getElementById("acorreo").value=data[0].correo
+            })            
+        }
+
+        function eliminacion(datos){
+            document.getElementById("tabla").hidden=true
+            document.getElementById("delformulario").hidden=false
+            fetch('metodos.php?'+ new URLSearchParams({"id":datos.get("id")}),{
+                method:'GET'
+            })
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById("bid").value=data[0].id
+                document.getElementById("bnombre").value=data[0].nombre
+                document.getElementById("bedad").value=data[0].edad
+                document.getElementById("bcorreo").value=data[0].correo
+            }) 
+        }
+
+        function insercion(){
+
+            document.getElementById("tabla").hidden=true
+            document.getElementById("regformulario").hidden=false
+        }
+
+        function cargardatos(){
+            fetch('metodos.php',{
+                method:'GET'
+            })
+            .then(res => res.json())
+            .then(data => {
+                let cadena=""
+                let id=""
+                   data.forEach(elementos => {
+                    cadena+=`<tr>`
+                        Object.entries(elementos).forEach(([llave,valor])=>{
+                            cadena+=`<td>${valor}</td>`
+                            if (llave == 'id'){
+                                id=valor
+                            }
+                        })
+                    cadena+=`<td><button id=e${id}>editar</button></td><td><button id=d${id}>eliminar</button></td></tr>`
+                   })
+                   cadena+="<button id=n0>Nuevo Registro</button>"
+                   document.getElementById("datos").innerHTML=cadena       
+        })
+        }
+    </script>
+    
+        
+    
+</body>
+</html>
