@@ -5,6 +5,9 @@
 </p>
 ![Jornadas de SoftLibre](https://github.com/hugo4295/JSLUACM/blob/main/assets/soft%20libre.png)<br>
 <br>
-Taller propuesto para la semana de Jornadas de SoftWare Libre de la UACM San Lorenzo Tezonco <br>
+
 
 Desarrollado por: M. en S. C. VIctor Hugo De la O Martínez
+<p align="left">
+  <img src="https://github.com/hugo4295/JSLUACM/blob/main/assets/youtube_social_squircle_red.png">
+</p>
