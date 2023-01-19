@@ -9,5 +9,5 @@
 
 Desarrollado por: M. en S. C. VIctor Hugo De la O Martínez
 <p align="left">
-  <img src="https://github.com/hugo4295/JSLUACM/blob/main/assets/youtube_social_squircle_red.png">
+  <img with="150" heigth="150" src="https://github.com/hugo4295/JSLUACM/blob/main/assets/youtube_social_squircle_red.png">
 </p>
